@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  console:
+    container_name: reactive-redis-console-app
+    build: .
+  redis:
+    image: 'redis:alpine'
+    container_name: redis-for-console-app
+
