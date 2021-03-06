@@ -17,7 +17,8 @@ public class CoffeeService {
     private final ReactiveRedisOperations<String, Coffee> coffeeOps;
 
     public Collection<Coffee> getCoffees() {
-        return coffeeOps.keys("*")
+        return coffeeOps
+                .keys("*")
                 .flatMap(coffeeOps.opsForValue()::get)
                 .as(flux -> flux.collectList().block());
     }

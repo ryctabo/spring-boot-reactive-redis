@@ -33,10 +33,10 @@ public class CoffeeLoader {
         factory.getReactiveConnection()
                 .serverCommands()
                 .flushAll()
-                .thenMany(Flux
-                        .just("Jet Black Redis", "Darth Redis", "Black Alert Redis")
-                        .map(this::buildCoffee)
-                        .flatMap(this::saveCoffee))
+                .thenMany(
+                        Flux.just("Jet Black Redis", "Darth Redis", "Black Alert Redis")
+                                .map(this::buildCoffee)
+                                .flatMap(this::saveCoffee))
                 .subscribe(log::info);
     }
 

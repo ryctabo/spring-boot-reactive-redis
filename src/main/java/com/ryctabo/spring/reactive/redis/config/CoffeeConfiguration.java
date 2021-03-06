@@ -20,11 +20,11 @@ public class CoffeeConfiguration {
     @Bean
     ReactiveRedisOperations<String, Coffee> redisOperations(
             ReactiveRedisConnectionFactory factory) {
-        Jackson2JsonRedisSerializer<Coffee> serializer
-                = new Jackson2JsonRedisSerializer<>(Coffee.class);
+        Jackson2JsonRedisSerializer<Coffee> serializer =
+                new Jackson2JsonRedisSerializer<>(Coffee.class);
 
-        RedisSerializationContext.RedisSerializationContextBuilder<String, Coffee> builder
-                = RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
+        RedisSerializationContext.RedisSerializationContextBuilder<String, Coffee> builder =
+                RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
 
         RedisSerializationContext<String, Coffee> context = builder.value(serializer).build();
         return new ReactiveRedisTemplate<>(factory, context);
