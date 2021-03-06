@@ -21,7 +21,6 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("Console Application running!");
-        log.info("Print all coffees");
-        service.getCoffees().forEach(log::info);
+        service.getCoffees().subscribe(log::info);
     }
 }
