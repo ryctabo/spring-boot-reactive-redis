@@ -1,12 +1,23 @@
 plugins {
     id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.diffplug.spotless' version '5.11.0'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'com.ryctabo.spring'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '11'
+
+spotless {
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat().aosp()
+        trimTrailingWhitespace()
+    }
+}
 
 configurations {
     compileOnly {
@@ -16,6 +27,10 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2020.0.1")
 }
 
 dependencies {
@@ -28,8 +43,25 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'com.playtika.testcontainers:embedded-redis:2.0.3'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+build {
+    finalizedBy spotlessApply
 }
